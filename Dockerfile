@@ -33,33 +33,22 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # ========== CONFIGURACIÓN DE SWAGGER ==========
-# Publicar assets de Swagger
+# Publicar assets de Swagger (NO requiere BD)
 RUN php artisan vendor:publish --force --provider "L5Swagger\L5SwaggerServiceProvider"
 
-# Limpiar y regenerar caché
-RUN php artisan config:clear
-RUN php artisan cache:clear
-RUN php artisan view:clear
-RUN php artisan route:clear
-
-# Generar documentación de Swagger
+# Generar documentación de Swagger (NO requiere BD)
 RUN php artisan l5-swagger:generate
 
-# Optimizar para producción
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-
-# Establecer permisos
-RUN chmod -R 775 storage
-RUN chmod -R 775 bootstrap/cache
+# Crear directorio para logs
+RUN mkdir -p storage/logs && chmod -R 775 storage logs bootstrap/cache
 # ============================================
 
-# Crear directorio para logs (opcional)
-RUN mkdir -p storage/logs && chmod -R 775 storage/logs
+# Copiar script de inicio y dar permisos de ejecución
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 # Exponer el puerto
 EXPOSE 10000
 
-# Comando para iniciar el servidor
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Comando para iniciar con el script
+CMD /start.sh
