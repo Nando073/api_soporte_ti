@@ -54,8 +54,9 @@ return [
         'routes' => [
             /*
              * Route for accessing parsed swagger annotations.
+             * ¡CAMBIO IMPORTANTE! De 'docs' a 'api-docs' para que coincida con la ruta real
              */
-            'docs' => 'docs',
+            'docs' => 'api-docs', // <--- ESTA ES LA LÍNEA MODIFICADA
 
             /*
              * Route for Oauth2 authentication callback.
@@ -253,7 +254,7 @@ return [
          * Set this to `true` in development mode so that docs would be regenerated on each request
          * Set this to `false` to disable swagger generation on production
          */
-        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
+        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', true), // <--- CAMBIADO a true para que siempre se genere
 
         /*
          * Set this to `true` to generate a copy of documentation in yaml format
