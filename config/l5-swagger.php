@@ -55,7 +55,7 @@ return [
             /*
              * Route for accessing parsed swagger annotations.
              */
-            'docs' => 'docs/{jsonFile}',
+            'docs' => 'docs',
 
             /*
              * Route for Oauth2 authentication callback.
