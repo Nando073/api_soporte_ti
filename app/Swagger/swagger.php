@@ -10,8 +10,8 @@ use OpenApi\Attributes as OA;
     description: "Documentación de la API Soporte TI"
 )]
 #[OA\Server(
-    url: "http://localhost:8000",
-    description: "Servidor local"
+    url: "https://api-soporte-ti.onrender.com",
+    description: "Servidor producción"
 )]
 class Swagger
 {
