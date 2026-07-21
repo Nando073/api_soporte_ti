@@ -55,7 +55,7 @@ return [
             /*
              * Route for accessing parsed swagger annotations.
              */
-            'docs' => 'docs',
+            'docs' => 'docs/{jsonFile}',
 
             /*
              * Route for Oauth2 authentication callback.
@@ -328,7 +328,10 @@ return [
          * Constants which can be used in annotations
          */
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+            'L5_SWAGGER_CONST_HOST' => env(
+                'L5_SWAGGER_CONST_HOST',
+                'https://api-soporte-ti.onrender.com'
+            ),
         ],
     ],
 ];
