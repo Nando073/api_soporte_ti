@@ -1,0 +1,1708 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Soporte TI",
+        "description": "Documentación de la API Soporte TI",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api-soporte-ti.onrender.com",
+            "description": "Servidor producción"
+        }
+    ],
+    "paths": {
+        "/api/compras": {
+            "get": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Obtener todas las compras activas",
+                "description": "Devuelve una lista completa de compras activas (estado = 1) con sus relaciones (proveedor y detalles).",
+                "operationId": "aec9e7fb057675eed94ae46fbd5141d2",
+                "responses": {
+                    "200": {
+                        "description": "Lista de compras obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Crear una compra",
+                "description": "Registra una nueva compra en la base de datos. Por defecto, estado = 1 (activa).",
+                "operationId": "7d7b7f238f2bb0700c471ad967038783",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "n_documento": {
+                                        "type": "string",
+                                        "example": "FACT-001"
+                                    },
+                                    "id_proveedor": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_usuario": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "total_compra": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1500.5
+                                    },
+                                    "forma_pago": {
+                                        "type": "string",
+                                        "example": "Efectivo"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "Compra urgente"
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-21"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Compra creada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/compras/{id}": {
+            "get": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Obtener compra por ID",
+                "description": "Busca una compra específica mediante su identificador. Solo muestra compras activas.",
+                "operationId": "eb792743dd58e05d18b39a2a74baab1a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compra encontrada"
+                    },
+                    "404": {
+                        "description": "Compra no encontrada o inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Actualizar compra",
+                "description": "Actualiza la información de una compra existente. Solo permite actualizar compras activas.",
+                "operationId": "afb28af3455da6c059dd42998cf42b6f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "n_documento": {
+                                        "type": "string",
+                                        "example": "FACT-001-A"
+                                    },
+                                    "id_proveedor": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_usuario": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "total_compra": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1800.75
+                                    },
+                                    "forma_pago": {
+                                        "type": "string",
+                                        "example": "Transferencia"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "Compra actualizada"
+                                    },
+                                    "fecha": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-22"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Compra actualizada correctamente"
+                    },
+                    "404": {
+                        "description": "Compra no encontrada o inactiva"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Eliminar compra (lógico)",
+                "description": "Cambia el estado de la compra a 0 (inactiva) en lugar de eliminarla físicamente.",
+                "operationId": "636a698916c48c3e311b0cbc074367c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compra eliminada lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Compra no encontrada o ya inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/compras/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Reactivar compra",
+                "description": "Cambia el estado de la compra a 1 (activa).",
+                "operationId": "6941b81c09b3c45e0caf9b6cbf30e4ca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compra reactivada correctamente"
+                    },
+                    "404": {
+                        "description": "Compra no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/compras/proveedor/{id_proveedor}": {
+            "get": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Obtener compras por proveedor",
+                "description": "Devuelve todas las compras activas de un proveedor específico.",
+                "operationId": "f7998d56da6fb4b04fd43e468b138b0c",
+                "parameters": [
+                    {
+                        "name": "id_proveedor",
+                        "in": "path",
+                        "description": "ID del proveedor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de compras del proveedor"
+                    },
+                    "404": {
+                        "description": "Proveedor sin compras"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/cotizaciones": {
+            "get": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Obtener todas las cotizaciones activas",
+                "description": "Devuelve una lista completa de cotizaciones activas (estado = 1) con sus relaciones (oferta y detalles).",
+                "operationId": "e0fb56c6e647aa0a32b74fa223c8eab7",
+                "responses": {
+                    "200": {
+                        "description": "Lista de cotizaciones obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Crear una cotización",
+                "description": "Registra una nueva cotización en la base de datos. Por defecto, estado = 1 (activa).",
+                "operationId": "1935ef0baa1d3ede5e6780b1800b4ab9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_orden": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_oferta": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_cliente": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_usuario": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha_cad": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-21"
+                                    },
+                                    "monto_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1500
+                                    },
+                                    "descuento": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cotización creada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/cotizaciones/{id}": {
+            "get": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Obtener cotización por ID",
+                "description": "Busca una cotización específica mediante su identificador. Solo muestra cotizaciones activas.",
+                "operationId": "e8f5a5732a12bde5581b022443cd333c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización encontrada"
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada o inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Actualizar cotización",
+                "description": "Actualiza la información de una cotización existente. Solo permite actualizar cotizaciones activas.",
+                "operationId": "e6afd7cc7fc883b0f6b6dc9946072195",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_orden": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_oferta": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_cliente": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_usuario": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha_cad": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-09-21"
+                                    },
+                                    "monto_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1800
+                                    },
+                                    "descuento": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 200
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cotización actualizada correctamente"
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada o inactiva"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Eliminar cotización (lógico)",
+                "description": "Cambia el estado de la cotización a 0 (inactiva) en lugar de eliminarla físicamente.",
+                "operationId": "05d367e9c13af87638f76782f568a878",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización eliminada lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada o ya inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/cotizaciones/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Reactivar cotización",
+                "description": "Cambia el estado de la cotización a 1 (activa).",
+                "operationId": "e1b3c71548aa98c7bec19c178882b4ab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cotización reactivada correctamente"
+                    },
+                    "404": {
+                        "description": "Cotización no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/cotizaciones/oferta/{id_oferta}": {
+            "get": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Obtener cotizaciones por oferta",
+                "description": "Devuelve todas las cotizaciones activas de una oferta específica.",
+                "operationId": "3b021d20c4544d45cae9501561b45146",
+                "parameters": [
+                    {
+                        "name": "id_oferta",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de cotizaciones de la oferta"
+                    },
+                    "404": {
+                        "description": "Oferta sin cotizaciones activas"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/cotizaciones/cliente/{id_cliente}": {
+            "get": {
+                "tags": [
+                    "Cotizaciones"
+                ],
+                "summary": "Obtener cotizaciones por cliente",
+                "description": "Devuelve todas las cotizaciones activas de un cliente específico.",
+                "operationId": "5886745b93d7e666115c8ff3e640c808",
+                "parameters": [
+                    {
+                        "name": "id_cliente",
+                        "in": "path",
+                        "description": "ID del cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de cotizaciones del cliente"
+                    },
+                    "404": {
+                        "description": "Cliente sin cotizaciones activas"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-compra": {
+            "get": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Obtener todos los detalles de compra activos",
+                "description": "Devuelve una lista completa de detalles de compra activos (estado = 1) con sus relaciones.",
+                "operationId": "1459dcdb20ed99c108e83765a1c76972",
+                "responses": {
+                    "200": {
+                        "description": "Lista de detalles de compra obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Crear un detalle de compra",
+                "description": "Registra un nuevo detalle de compra en la base de datos. Por defecto, estado = 1 (activo).",
+                "operationId": "bd3fff9fa843612bc78481e0db72a25c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_compra": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_repuesto": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150.5
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "sub_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 451.5
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Detalle de compra creado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-compra/{id}": {
+            "get": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Obtener detalle de compra por ID",
+                "description": "Busca un detalle de compra específico mediante su identificador. Solo muestra detalles activos.",
+                "operationId": "487aa87113226dec6dd356463d8b074f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de compra encontrado"
+                    },
+                    "404": {
+                        "description": "Detalle de compra no encontrado o inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Actualizar detalle de compra",
+                "description": "Actualiza la información de un detalle de compra existente. Solo permite actualizar detalles activos.",
+                "operationId": "5b7cca07f55ad358fd08d3e37a5b148d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_compra": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_repuesto": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 175.75
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "sub_total": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 878.75
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Detalle de compra actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle de compra no encontrado o inactivo"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Eliminar detalle de compra (lógico)",
+                "description": "Cambia el estado del detalle de compra a 0 (inactivo) en lugar de eliminarlo físicamente.",
+                "operationId": "8ada8b024993ae19835aa5e3a2ce38b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de compra eliminado lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Detalle de compra no encontrado o ya inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-compra/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Reactivar detalle de compra",
+                "description": "Cambia el estado del detalle de compra a 1 (activo).",
+                "operationId": "1ebfeda0c1999f908cdd40eba127e630",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de compra reactivado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle de compra no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-compra/compra/{id_compra}": {
+            "get": {
+                "tags": [
+                    "Detalles de Compra"
+                ],
+                "summary": "Obtener detalles por compra",
+                "description": "Devuelve todos los detalles activos de una compra específica.",
+                "operationId": "1b0fa0b8ed15e5c545b24c1662adf963",
+                "parameters": [
+                    {
+                        "name": "id_compra",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de detalles de la compra"
+                    },
+                    "404": {
+                        "description": "Compra sin detalles activos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-cotizacion": {
+            "get": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Obtener todos los detalles de cotización activos",
+                "description": "Devuelve una lista completa de detalles de cotización activos (estado = 1) con sus relaciones.",
+                "operationId": "ef324c560c83445f47faa6c5e52a4e54",
+                "responses": {
+                    "200": {
+                        "description": "Lista de detalles de cotización obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Crear un detalle de cotización",
+                "description": "Registra un nuevo detalle de cotización en la base de datos. Por defecto, estado = 1 (activo).",
+                "operationId": "fbea652b47bea14c7a55f636fdab39e9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_cotizacion": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_equipo": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_repuesto": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 250.5
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "descuento": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Detalle de cotización creado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-cotizacion/{id}": {
+            "get": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Obtener detalle de cotización por ID",
+                "description": "Busca un detalle de cotización específico mediante su identificador. Solo muestra detalles activos.",
+                "operationId": "91fb154341b760d1e38d89cc9bee0440",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de cotización encontrado"
+                    },
+                    "404": {
+                        "description": "Detalle de cotización no encontrado o inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Actualizar detalle de cotización",
+                "description": "Actualiza la información de un detalle de cotización existente. Solo permite actualizar detalles activos.",
+                "operationId": "8e22bec704a05ce95d7ece0eec456e52",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_cotizacion": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_equipo": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_repuesto": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 275.75
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "descuento": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 15
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Detalle de cotización actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle de cotización no encontrado o inactivo"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Eliminar detalle de cotización (lógico)",
+                "description": "Cambia el estado del detalle de cotización a 0 (inactivo) en lugar de eliminarlo físicamente.",
+                "operationId": "df5f7317fb6a3e40e0e484be2f241528",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de cotización eliminado lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Detalle de cotización no encontrado o ya inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-cotizacion/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Reactivar detalle de cotización",
+                "description": "Cambia el estado del detalle de cotización a 1 (activo).",
+                "operationId": "ba79b34bd6625b3f692c16e8639311ea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle de cotización reactivado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle de cotización no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/detalles-cotizacion/cotizacion/{id_cotizacion}": {
+            "get": {
+                "tags": [
+                    "Detalles de Cotización"
+                ],
+                "summary": "Obtener detalles por cotización",
+                "description": "Devuelve todos los detalles activos de una cotización específica.",
+                "operationId": "51f8cb3252dcabf25989b70c825772ee",
+                "parameters": [
+                    {
+                        "name": "id_cotizacion",
+                        "in": "path",
+                        "description": "ID de la cotización",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de detalles de la cotización"
+                    },
+                    "404": {
+                        "description": "Cotización sin detalles activos"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/ofertas": {
+            "get": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Obtener todas las ofertas activas",
+                "description": "Devuelve una lista completa de ofertas activas (estado = 1).",
+                "operationId": "233d3f0d1046252873fb6cb3285c8479",
+                "responses": {
+                    "200": {
+                        "description": "Lista de ofertas obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Crear una oferta",
+                "description": "Registra una nueva oferta en la base de datos. Por defecto, estado = 1 (activa).",
+                "operationId": "49e2e19ae0c01a009e2995cac118b546",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "of_nombre": {
+                                        "type": "string",
+                                        "example": "Oferta especial"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Descripción de la oferta"
+                                    },
+                                    "porcentaje": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 20.5
+                                    },
+                                    "fecha_inc": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-21"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-21"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Oferta creada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/ofertas/{id}": {
+            "get": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Obtener oferta por ID",
+                "description": "Busca una oferta específica mediante su identificador. Solo muestra ofertas activas.",
+                "operationId": "43aac8a7eb7ecf8d9374328ab853a1ee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta encontrada"
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada o inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Actualizar oferta",
+                "description": "Actualiza la información de una oferta existente. Solo permite actualizar ofertas activas.",
+                "operationId": "5833215a4bcbde7572c5266435515fca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "of_nombre": {
+                                        "type": "string",
+                                        "example": "Oferta especial actualizada"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Nueva descripción"
+                                    },
+                                    "porcentaje": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25
+                                    },
+                                    "fecha_inc": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-22"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-22"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Oferta actualizada correctamente"
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada o inactiva"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Eliminar oferta (lógico)",
+                "description": "Cambia el estado de la oferta a 0 (inactiva) en lugar de eliminarla físicamente.",
+                "operationId": "304611bc0477b8b87007f2a93e323eb7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta eliminada lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada o ya inactiva"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/ofertas/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Ofertas"
+                ],
+                "summary": "Reactivar oferta",
+                "description": "Cambia el estado de la oferta a 1 (activa).",
+                "operationId": "96c60838e678286e8ee8f2493a2657d7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la oferta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Oferta reactivada correctamente"
+                    },
+                    "404": {
+                        "description": "Oferta no encontrada"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/proveedores": {
+            "get": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Obtener todos los proveedores activos",
+                "description": "Devuelve una lista completa de proveedores activos (estado = 1).",
+                "operationId": "7f6ed20dc86f1682aa7e31d71afa37df",
+                "responses": {
+                    "200": {
+                        "description": "Lista de proveedores obtenida correctamente"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Crear un proveedor",
+                "description": "Registra un nuevo proveedor en la base de datos. Por defecto, estado = 1 (activo).",
+                "operationId": "a1046f3d7a3c804651bf420761995e57",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proveedor S.A."
+                                    },
+                                    "nit": {
+                                        "type": "string",
+                                        "example": "1234567890"
+                                    },
+                                    "departamento": {
+                                        "type": "string",
+                                        "example": "La Paz"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Av. Principal #123"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "contacto@proveedor.com"
+                                    },
+                                    "celular": {
+                                        "type": "string",
+                                        "example": "78945612"
+                                    },
+                                    "fecha_registro": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-21"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "default": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Proveedor creado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/proveedores/{id}": {
+            "get": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Obtener proveedor por ID",
+                "description": "Busca un proveedor específico mediante su identificador. Solo muestra proveedores activos.",
+                "operationId": "5aa647e1f6ead15a2c088ecc1fbb12bf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proveedor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proveedor encontrado"
+                    },
+                    "404": {
+                        "description": "Proveedor no encontrado o inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Actualizar proveedor",
+                "description": "Actualiza la información de un proveedor existente. Solo permite actualizar proveedores activos.",
+                "operationId": "28ff17fc2a31c61745cbe9a18da5aa32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proveedor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proveedor S.A. Actualizado"
+                                    },
+                                    "nit": {
+                                        "type": "string",
+                                        "example": "1234567891"
+                                    },
+                                    "departamento": {
+                                        "type": "string",
+                                        "example": "Santa Cruz"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Av. Secundaria #456"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "nuevo@proveedor.com"
+                                    },
+                                    "celular": {
+                                        "type": "string",
+                                        "example": "78945613"
+                                    },
+                                    "fecha_registro": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-07-21"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Proveedor actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Proveedor no encontrado o inactivo"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Eliminar proveedor (lógico)",
+                "description": "Cambia el estado del proveedor a 0 (inactivo) en lugar de eliminarlo físicamente.",
+                "operationId": "2b9dc197602ee96f15138b4ad2024fab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proveedor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proveedor eliminado lógicamente (estado = 0)"
+                    },
+                    "404": {
+                        "description": "Proveedor no encontrado o ya inactivo"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
+        "/api/proveedores/{id}/reactivar": {
+            "patch": {
+                "tags": [
+                    "Proveedores"
+                ],
+                "summary": "Reactivar proveedor",
+                "description": "Cambia el estado del proveedor a 1 (activo).",
+                "operationId": "3d50d28201919241a46355bcf96f25a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del proveedor",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proveedor reactivado correctamente"
+                    },
+                    "404": {
+                        "description": "Proveedor no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Compras",
+            "description": "Compras"
+        },
+        {
+            "name": "Cotizaciones",
+            "description": "Cotizaciones"
+        },
+        {
+            "name": "Detalles de Compra",
+            "description": "Detalles de Compra"
+        },
+        {
+            "name": "Detalles de Cotización",
+            "description": "Detalles de Cotización"
+        },
+        {
+            "name": "Ofertas",
+            "description": "Ofertas"
+        },
+        {
+            "name": "Proveedores",
+            "description": "Proveedores"
+        }
+    ]
+}
