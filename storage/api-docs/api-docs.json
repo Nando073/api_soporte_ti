@@ -7,8 +7,8 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000",
-            "description": "Servidor local"
+            "url": "https://api-soporte-ti.onrender.com",
+            "description": "Servidor producción"
         }
     ],
     "paths": {
