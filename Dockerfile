@@ -36,12 +36,11 @@ RUN composer install --optimize-autoloader
 # Publicar assets de Swagger
 RUN php artisan vendor:publish --force --provider "L5Swagger\L5SwaggerServiceProvider"
 
-# NO generamos la documentación aquí (falla en Docker)
-# En su lugar, copiamos el archivo generado localmente
-# RUN php artisan l5-swagger:generate  # <--- COMENTADO
-
-# Crear directorio para logs
-RUN mkdir -p storage/logs && chmod -R 775 storage logs bootstrap/cache
+# Crear directorios necesarios
+RUN mkdir -p storage/logs \
+    && mkdir -p bootstrap/cache \
+    && chmod -R 775 storage \
+    && chmod -R 775 bootstrap/cache
 # ============================================
 
 # Copiar script de inicio y dar permisos de ejecución
