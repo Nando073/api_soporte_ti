@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# Optimizar Laravel (ahora con la BD disponible)
+# Generar documentación de Swagger al inicio (cuando la BD está disponible)
+php artisan l5-swagger:generate
+
+# Optimizar Laravel
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache

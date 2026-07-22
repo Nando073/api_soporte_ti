@@ -30,14 +30,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . .
 
 # Instalar dependencias de Laravel
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --optimize-autoloader
 
 # ========== CONFIGURACIÓN DE SWAGGER ==========
-# Publicar assets de Swagger (NO requiere BD)
+# Publicar assets de Swagger
 RUN php artisan vendor:publish --force --provider "L5Swagger\L5SwaggerServiceProvider"
 
-# Generar documentación de Swagger (NO requiere BD)
-RUN php artisan l5-swagger:generate
+# NO generamos la documentación aquí (falla en Docker)
+# En su lugar, copiamos el archivo generado localmente
+# RUN php artisan l5-swagger:generate  # <--- COMENTADO
 
 # Crear directorio para logs
 RUN mkdir -p storage/logs && chmod -R 775 storage logs bootstrap/cache
