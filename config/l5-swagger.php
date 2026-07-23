@@ -10,9 +10,13 @@ return [
 
             'routes' => [
                 /*
-                 * Route for accessing api documentation interface
+                 * Route for accessing api documentation interface (Swagger UI)
                  */
                 'api' => 'docs',
+                /*
+                 * Route for accessing parsed swagger annotations (JSON)
+                 */
+                'docs' => 'api-docs',
             ],
             'paths' => [
                 /*
@@ -53,10 +57,9 @@ return [
     'defaults' => [
         'routes' => [
             /*
-             * Route for accessing parsed swagger annotations.
-             * ¡CAMBIO IMPORTANTE! De 'docs' a 'api-docs' para que coincida con la ruta real
+             * Route for accessing parsed swagger annotations (JSON)
              */
-            'docs' => 'docs',
+            'docs' => 'api-docs',
 
             /*
              * Route for Oauth2 authentication callback.
