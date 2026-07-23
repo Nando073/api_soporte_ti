@@ -12,7 +12,7 @@ return [
                 /*
                  * Route for accessing api documentation interface
                  */
-                'api' => 'api-docs',
+                'api' => 'docs',
             ],
             'paths' => [
                 /*
@@ -56,7 +56,7 @@ return [
              * Route for accessing parsed swagger annotations.
              * ¡CAMBIO IMPORTANTE! De 'docs' a 'api-docs' para que coincida con la ruta real
              */
-            'docs' => 'api-docs', // <--- ESTA ES LA LÍNEA MODIFICADA
+            'docs' => 'docs',
 
             /*
              * Route for Oauth2 authentication callback.
